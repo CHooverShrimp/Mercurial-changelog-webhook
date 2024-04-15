@@ -1,4 +1,5 @@
-# The program basically reads the HTML divs for data and pass them to the webhook.
+# Actively pinging the revision page for latest changes
+# Use when you can't access the hgrc for some reason
 import requests
 from bs4 import BeautifulSoup
 import time
@@ -21,10 +22,11 @@ def extract_title(html_content):
 def extract_content(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
     title_tag = soup.find('title')
-    changeset_id = title_tag.text.split(': ')[1].strip() # Read the push ID
+    changeset_id = title_tag.text.split(': ')[1].strip()
+    repo = title_tag.text.split(': ')[0].strip()
     description = soup.find('div', class_='description').text.strip()
     author = soup.find('td', class_='author').text.strip() 
-    return description, changeset_id, author
+    return description, changeset_id, author, repo
 
 def send_webhook(url, payload):
     try:
@@ -52,7 +54,18 @@ while True:
         
         # Prepare payload
         webhook_payload = {
-            "content": f"```\nDescription: {description}\nChangeset ID: {changeset_id}\nAuthor: {author}\n```"
+            "embeds": [
+                {
+                "title": f"Changeset: {changeset_id}",
+                "description": description,
+                "fields": [
+                    {"name": "Author", "value": author, "inline": True},
+                    {"name": "Repository", "value": repo, "inline": True},
+                    {"name": "Link", "value": repoUrl+changeset_id, "inline": False}
+                ],
+                "color": 0x36a64f
+                }
+            ]
         }
         
         # Send the webhook
