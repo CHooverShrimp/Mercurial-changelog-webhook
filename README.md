@@ -15,4 +15,5 @@ I did both in case there's a need for it (probably won't)
 # changegroup =/bin/bash -c '. /yourPythonEnvironment/bin/activate && python3 /yourPathToThisFile/passive_webhook.py https://username:password@your.repos.com/hg/repo/rev/ https://your.repos.com/hg/repo/rev/'
 ```
 *(hgrc file is in .hg, you might have to create the file)*
+
 4. give the appropriate permission for your web server to execute the hgrc webhook (chown www-data:www-data [DIRECTORY] -R)
