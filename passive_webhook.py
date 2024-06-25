@@ -1,3 +1,4 @@
+# https://github.com/CHooverShrimp/Mercurial-changelog-webhook
 # Gets called by hgrc in the repo to deliver latest changes
 # put this in the hgrc file in the repo
 
