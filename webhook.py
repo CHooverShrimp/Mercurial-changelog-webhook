@@ -1,3 +1,4 @@
+# https://github.com/CHooverShrimp/Mercurial-changelog-webhook
 # Actively pinging the revision page for latest changes
 # Use when you can't access the hgrc for some reason
 import requests
